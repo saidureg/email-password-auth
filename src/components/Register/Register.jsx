@@ -14,6 +14,8 @@ const Register = () => {
     const password = e.target.password.value;
     const accepted = e.target.terms.checked;
     console.log(email, password, accepted);
+
+    //   reset error and success msg
     setRegisterError("");
     setSuccess("");
     if (password.length < 6) {
