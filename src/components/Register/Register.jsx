@@ -12,7 +12,8 @@ const Register = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password);
+    const accepted = e.target.terms.checked;
+    console.log(email, password, accepted);
     setRegisterError("");
     setSuccess("");
     if (password.length < 6) {
@@ -25,6 +26,8 @@ const Register = () => {
       return setRegisterError(
         "Password should be uppercase letter, special symbol, and number"
       );
+    } else if (!accepted) {
+      return setRegisterError("Please accepted you terms and conditions");
     }
 
     createUserWithEmailAndPassword(auth, email, password)
@@ -41,7 +44,7 @@ const Register = () => {
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col">
-        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <div className="card flex-shrink-0 shadow-2xl bg-base-100">
           <h3 className="text-3xl text-center">Please Register</h3>
           <form onSubmit={handleRegister} className="card-body">
             <div className="form-control">
@@ -76,11 +79,15 @@ const Register = () => {
                   {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
                 </span>
               </div>
-              <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
-              </label>
+              <div className="mt-3">
+                <input type="checkbox" name="terms" id="conditions" />
+                <label className="ml-2" htmlFor="conditions">
+                  Accept our{" "}
+                  <a href="" className="label-text-alt link link-hover">
+                    Terms and Conditions
+                  </a>
+                </label>
+              </div>
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Register</button>
