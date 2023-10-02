@@ -1,10 +1,12 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../../Firebase/firebase.config";
 import { useState } from "react";
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 const Register = () => {
   const [registerError, setRegisterError] = useState("");
   const [success, setSuccess] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -16,6 +18,12 @@ const Register = () => {
     if (password.length < 6) {
       return setRegisterError(
         "Password should be at least 6 characters or longer"
+      );
+    } else if (
+      !/^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{6,}$/.test(password)
+    ) {
+      return setRegisterError(
+        "Password should be uppercase letter, special symbol, and number"
       );
     }
 
@@ -49,16 +57,25 @@ const Register = () => {
               />
             </div>
             <div className="form-control">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                className="input input-bordered"
-                required
-              />
+              <div className="relative">
+                <label className="label">
+                  <span className="label-text">Password</span>
+                </label>
+
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="password"
+                  className="input input-bordered"
+                  required
+                />
+                <span
+                  className="absolute top-[52px] right-2"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+                </span>
+              </div>
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
                   Forgot password?
